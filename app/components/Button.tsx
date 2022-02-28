@@ -1,4 +1,4 @@
-import { styled } from "../assets/stitches.config";
+import { styled } from "../styles/stitches.config";
 
 // REDO ALL OF THIS. JUST A TEST.
 // INSPO FROM https://github.com/fungible-systems/nelson-ui
