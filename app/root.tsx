@@ -12,7 +12,7 @@ import type { MetaFunction } from "remix";
 
 import ServerStyleContext from "./styles/server.context";
 import ClientStyleContext from "./styles/client.context";
-import { styled } from "./styles/stitches.config";
+import { styled, getCssText } from "./styles/stitches.config";
 import { globalStyles } from "./styles/globalStyles";
 
 interface DocumentProps {
@@ -30,14 +30,14 @@ const Container = styled("div", {
 });
 
 const Document = ({ children, title }: DocumentProps) => {
-  const serverStyleData = useContext(ServerStyleContext);
-  const clientStyleData = useContext(ClientStyleContext);
+  // const serverStyleData = useContext(ServerStyleContext);
+  // const clientStyleData = useContext(ClientStyleContext);
 
   // Only executed on client
-  useEffect(() => {
-    // reset cache to re-apply global styles
-    clientStyleData.reset();
-  }, [clientStyleData, serverStyleData]);
+  // useEffect(() => {
+  //   // reset cache to re-apply global styles
+  //   clientStyleData.reset();
+  // }, [clientStyleData, serverStyleData]);
 
   return (
     <html lang="en">
@@ -47,11 +47,7 @@ const Document = ({ children, title }: DocumentProps) => {
         {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
-        <style
-          id="stitches"
-          dangerouslySetInnerHTML={{ __html: clientStyleData.sheet }}
-          suppressHydrationWarning
-        />
+        <style dangerouslySetInnerHTML={{ __html: getCssText() }} />
       </head>
       <body>
         {children}
@@ -64,6 +60,8 @@ const Document = ({ children, title }: DocumentProps) => {
 };
 
 export default function App() {
+  globalStyles();
+
   return (
     <Document>
       <Outlet />

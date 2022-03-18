@@ -11,15 +11,15 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const sheet = getCssText();
+  // const markup = renderToString(
+  //   <RemixServer context={remixContext} url={request.url} />
+  // )
+  //   .replace(/<\/head>/, `<style>${getCssText()}</style></head>`)
+  //   .replace(/<\/head>/, `<style>${getCssText()}</style></head>`);
 
-  let markup = renderToString(
-    <ServerStyleContext.Provider value={sheet}>
-      <RemixServer context={remixContext} url={request.url} />
-    </ServerStyleContext.Provider>
-  );
-
-  markup = markup.replace("__STYLES__", sheet);
+  const markup = renderToString(
+    <RemixServer context={remixContext} url={request.url} />
+  ).replace(/<\/head>/, `<style id="stitches">${getCssText()}</style></head>`);
 
   responseHeaders.set("Content-Type", "text/html");
 
@@ -28,3 +28,26 @@ export default function handleRequest(
     headers: responseHeaders,
   });
 }
+// export default function handleRequest(
+//   request: Request,
+//   responseStatusCode: number,
+//   responseHeaders: Headers,
+//   remixContext: EntryContext
+// ) {
+//   const sheet = getCssText();
+
+//   let markup = renderToString(
+//     <ServerStyleContext.Provider value={sheet}>
+//       <RemixServer context={remixContext} url={request.url} />
+//     </ServerStyleContext.Provider>
+//   );
+
+//   markup = markup.replace("__STYLES__", sheet);
+
+//   responseHeaders.set("Content-Type", "text/html");
+
+//   return new Response("<!DOCTYPE html>" + markup, {
+//     status: responseStatusCode,
+//     headers: responseHeaders,
+//   });
+// }
