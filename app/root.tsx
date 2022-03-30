@@ -13,6 +13,7 @@ import type { MetaFunction } from "remix";
 import ServerStyleContext from "./styles/server.context";
 import ClientStyleContext from "./styles/client.context";
 import { styled } from "./styles/stitches.config";
+
 import { globalStyles } from "./styles/globalStyles";
 
 interface DocumentProps {
