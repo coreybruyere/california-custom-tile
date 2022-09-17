@@ -10,10 +10,12 @@ import {
 import { useContext, useEffect } from "react";
 import type { MetaFunction } from "remix";
 
-import ServerStyleContext from "./styles/server.context";
-import ClientStyleContext from "./styles/client.context";
-import { styled } from "./styles/stitches.config";
-import { globalStyles } from "./styles/globalStyles";
+import styles from "~/styles/global.css";
+// styles is now something like /build/global-AE33KB2.css
+
+export function links() {
+  return [{ rel: "stylesheet", href: styles }];
+}
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -24,21 +26,7 @@ export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
 };
 
-const Container = styled("div", {
-  backgroundColor: "#ff0000",
-  padding: "1em",
-});
-
 const Document = ({ children, title }: DocumentProps) => {
-  const serverStyleData = useContext(ServerStyleContext);
-  const clientStyleData = useContext(ClientStyleContext);
-
-  // Only executed on client
-  useEffect(() => {
-    // reset cache to re-apply global styles
-    clientStyleData.reset();
-  }, [clientStyleData, serverStyleData]);
-
   return (
     <html lang="en">
       <head>
@@ -47,11 +35,6 @@ const Document = ({ children, title }: DocumentProps) => {
         {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
-        <style
-          id="stitches"
-          dangerouslySetInnerHTML={{ __html: clientStyleData.sheet }}
-          suppressHydrationWarning
-        />
       </head>
       <body>
         {children}
@@ -76,11 +59,11 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <Container>
+      <div style={{ backgroundColor: "#ff0000", padding: "1em" }}>
         <p>
           [CatchBoundary]: {caught.status} {caught.statusText}
         </p>
-      </Container>
+      </div>
     </Document>
   );
 }
@@ -88,9 +71,9 @@ export function CatchBoundary() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title="Error!">
-      <Container>
+      <div style={{ backgroundColor: "#ff0000", padding: "1em" }}>
         <p>[ErrorBoundary]: There was an error: {error.message}</p>
-      </Container>
+      </div>
     </Document>
   );
 }
