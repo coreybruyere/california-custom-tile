@@ -23,6 +23,7 @@ export default function Index() {
             alt="California Custom Tile"
             style={{ maxWidth: "100%" }}
             width={280}
+            height={153}
           />
         </a>
       </h1>

@@ -23,7 +23,11 @@ interface DocumentProps {
 }
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return {
+    title: "California Custom Tile",
+    description:
+      "Southern California-based tile company serving customers for over 40 years",
+  };
 };
 
 const Document = ({ children, title }: DocumentProps) => {
